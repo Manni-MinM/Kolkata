@@ -1,4 +1,4 @@
-package service
+package quote
 
 import (
 	"io"
@@ -7,9 +7,14 @@ import (
 	"github.com/buger/jsonparser"
 )
 
-type Quote struct{}
+type quoteService interface {
+    newQuote() (string, error)
+    existingQuote() (string, error)
+}
 
-func (Quote) NewQuote() (string, error) {
+type quote struct{}
+
+func (quote) newQuote() (string, error) {
     resp, err := http.Get("https://api.quotable.io/random")
     if err != nil {
         return "", err
@@ -24,7 +29,7 @@ func (Quote) NewQuote() (string, error) {
     return jsonparser.GetString(body, "content")
 }
 
-func (Quote) ExistingQuote() (string, error) {
+func (quote) existingQuote() (string, error) {
     // TODO
 
     return "", nil

@@ -1,18 +1,16 @@
 package server
 
 import (
-    "net/http"
+	"net/http"
 )
 
-func ListenAndServe(port string) error {
-    mux := http.NewServeMux()
+type Handler func(http.ResponseWriter, *http.Request)
 
-    newQuoteHandler := http.HandlerFunc(newQuote)
-    existingQuoteHandler := http.HandlerFunc(existingQuote)
+func ListenAndServe(port string, r Router) error {
+    for _, route := range r.Routes {
+        r.Mux.Handle(route.Path, http.HandlerFunc(route.Handler))
+    }
 
-    mux.Handle("/new-quote", newQuoteHandler)
-    mux.Handle("/existing-quote", existingQuoteHandler)
-
-    return http.ListenAndServe(port, mux)
+    return http.ListenAndServe(port, r.Mux)
 }
 
