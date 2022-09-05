@@ -1,17 +1,23 @@
 package main
 
 import (
-    "os"
-    "log"
+	"log"
+	"os"
 
-    "kolkata/pkg/quote"
-    "kolkata/pkg/database"
-	"kolkata/internal/server"
+	"kolkata/internal/config"
 	"kolkata/internal/middleware"
+	"kolkata/internal/server"
+	"kolkata/pkg/database"
+	"kolkata/pkg/quote"
 )
 
 func main() {
-    db, err := database.NewRedis()
+    conf, err := config.LoadConfig()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    db, err := database.NewRedis(conf.Redis)
     if err != nil {
         log.Fatal(err)
     }
@@ -26,7 +32,7 @@ func main() {
     router.AddRoute("/new-quote", newHandler.ServeHTTP)
     router.AddRoute("/search-quote", searchHandler.ServeHTTP)
 
-    err = server.ListenAndServe(":8000", router)
+    err = server.ListenAndServe(conf.Server, router)
     if err != nil {
         log.Fatal(err)
     }
