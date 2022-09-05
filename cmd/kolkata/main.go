@@ -4,15 +4,25 @@ import (
     "log"
 
     "kolkata/pkg/quote"
+    "kolkata/pkg/database"
 	"kolkata/internal/server"
 )
 
 func main() {
-    r := server.NewRouter()
-    r.AddRoute("/new-quote", quote.NewQuote)
-    r.AddRoute("/existing-quote", quote.ExistingQuote)
+    db, err := database.NewRedis()
+    if err != nil {
+        log.Fatal(err)
+    }
 
-    err := server.ListenAndServe(":8000", r)
+    q := quote.NewHTTP(db)
+    newHandler := quote.NewQuoteHandler(q)
+    searchHandler := quote.SearchQuoteHandler(q)
+
+    r := server.NewRouter()
+    r.AddRoute("/new-quote", newHandler.ServeHTTP)
+    r.AddRoute("/search-quote", searchHandler.ServeHTTP)
+
+    err = server.ListenAndServe(":8000", r)
     if err != nil {
         log.Fatal(err)
     }
