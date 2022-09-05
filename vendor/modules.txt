@@ -1,0 +1,22 @@
+# github.com/buger/jsonparser v1.1.1
+## explicit; go 1.13
+github.com/buger/jsonparser
+# github.com/cespare/xxhash/v2 v2.1.2
+## explicit; go 1.11
+github.com/cespare/xxhash/v2
+# github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f
+## explicit
+github.com/dgryski/go-rendezvous
+# github.com/go-redis/redis/v9 v9.0.0-beta.2
+## explicit; go 1.17
+github.com/go-redis/redis/v9
+github.com/go-redis/redis/v9/internal
+github.com/go-redis/redis/v9/internal/hashtag
+github.com/go-redis/redis/v9/internal/hscan
+github.com/go-redis/redis/v9/internal/pool
+github.com/go-redis/redis/v9/internal/proto
+github.com/go-redis/redis/v9/internal/rand
+github.com/go-redis/redis/v9/internal/util
+# github.com/google/uuid v1.3.0
+## explicit
+github.com/google/uuid
