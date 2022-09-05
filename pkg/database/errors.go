@@ -24,11 +24,3 @@ func (e *ErrCreateDatabase) Error() string {
     return fmt.Sprintf("couldn't create database")
 }
 
-type ErrUnimplementedDatabase struct {
-    database    string
-}
-
-func (e *ErrUnimplementedDatabase) Error() string {
-    return fmt.Sprintf("database %s not implemented", e.database)
-}
-

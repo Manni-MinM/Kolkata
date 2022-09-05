@@ -6,12 +6,3 @@ type Database interface {
     Delete(key string) (string, error)
 }
 
-func New(database string) (Database, error) {
-    switch database {
-    case "redis":
-        return NewRedis()
-    default:
-        return nil, &ErrUnimplementedDatabase{database}
-    }
-}
-
