@@ -14,3 +14,7 @@ test:
 image:
 	docker build -f build/package/Dockerfile -t kolkata:v1.0.0 .
 
+.PHONY: compose-up
+compose-up:
+	docker-compose -f deployments/docker-compose.yaml up
+
