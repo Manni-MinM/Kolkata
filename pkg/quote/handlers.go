@@ -17,7 +17,7 @@ func NewQuoteHandler(q QuoteService) http.Handler {
         id, err := q.NewQuote()
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            return
+            panic(err)
         }
 
         w.WriteHeader(http.StatusOK)
@@ -35,19 +35,19 @@ func SearchQuoteHandler(q QuoteService) http.Handler {
         body, err := io.ReadAll(req.Body)
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            return
+            panic(err)
         }
 
         id, err := jsonparser.GetString(body, "id")
         if err != nil {
             w.WriteHeader(http.StatusBadRequest)
-            return
+            panic(err)
         }
 
         text, err := q.SearchQuote(id)
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            return
+            panic(err)
         }
 
         w.WriteHeader(http.StatusOK)
