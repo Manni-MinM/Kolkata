@@ -10,7 +10,7 @@ resolve:
 test:
 	go test ./...
 
-.PHONY: build-image
-build-image:
+.PHONY: image
+image:
 	docker build -f build/package/Dockerfile -t kolkata:v1.0.0 .
 
