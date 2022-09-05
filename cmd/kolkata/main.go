@@ -3,8 +3,8 @@ package main
 import (
     "log"
 
+    "kolkata/pkg/quote"
 	"kolkata/internal/server"
-    "kolkata/internal/service/quote"
 )
 
 func main() {
