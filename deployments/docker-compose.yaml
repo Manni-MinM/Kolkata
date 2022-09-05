@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  kolkata:
+    build:
+      context: ../
+      dockerfile: ./build/package/Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
