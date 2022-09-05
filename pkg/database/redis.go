@@ -1,7 +1,10 @@
 package database
 
 import (
+    "fmt"
     "context"
+
+    "kolkata/internal/config"
 
 	"github.com/go-redis/redis/v9"
 )
@@ -10,9 +13,10 @@ type redisDB struct {
     client    *redis.Client
 }
 
-func NewRedis() (Database, error) {
+func NewRedis(conf config.RedisConfig) (Database, error) {
+    addr := fmt.Sprintf("%v:%v", conf.Addr, conf.Port)
     client := redis.NewClient(&redis.Options{
-        Addr: "redis:6379",
+        Addr: addr,
         Password: "",
         DB: 0,
     })
