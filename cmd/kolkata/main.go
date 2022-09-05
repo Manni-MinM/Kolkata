@@ -1,11 +1,13 @@
 package main
 
 import (
+    "os"
     "log"
 
     "kolkata/pkg/quote"
     "kolkata/pkg/database"
 	"kolkata/internal/server"
+	"kolkata/internal/middleware"
 )
 
 func main() {
@@ -14,15 +16,17 @@ func main() {
         log.Fatal(err)
     }
 
-    q := quote.NewHTTP(db)
-    newHandler := quote.NewQuoteHandler(q)
-    searchHandler := quote.SearchQuoteHandler(q)
+    logger := middleware.NewLogger(log.New(os.Stdout, "", log.LstdFlags))
 
-    r := server.NewRouter()
-    r.AddRoute("/new-quote", newHandler.ServeHTTP)
-    r.AddRoute("/search-quote", searchHandler.ServeHTTP)
+    service := quote.NewHTTP(db)
+    newHandler := logger(quote.NewQuoteHandler(service))
+    searchHandler := logger(quote.SearchQuoteHandler(service))
 
-    err = server.ListenAndServe(":8000", r)
+    router := server.NewRouter()
+    router.AddRoute("/new-quote", newHandler.ServeHTTP)
+    router.AddRoute("/search-quote", searchHandler.ServeHTTP)
+
+    err = server.ListenAndServe(":8000", router)
     if err != nil {
         log.Fatal(err)
     }
