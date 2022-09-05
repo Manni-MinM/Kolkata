@@ -18,3 +18,7 @@ image:
 compose-up:
 	docker-compose -f deployments/docker-compose.yaml up
 
+.PHONY: compose-down
+compose-down:
+	docker-compose -f deployments/docker-compose.yaml down --rmi=local
+
