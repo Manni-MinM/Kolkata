@@ -1,6 +1,7 @@
 package quote
 
 type QuoteService interface {
-    GetQuote() (string, error)
+    NewQuote() (string, error)
+    SearchQuote(string) (string, error)
 }
 
