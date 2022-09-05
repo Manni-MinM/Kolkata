@@ -1,8 +1,10 @@
 package quote
 
 import (
+    "io"
     "net/http"
-    "encoding/json"
+
+    "github.com/buger/jsonparser"
 )
 
 func NewQuoteHandler(q QuoteService) http.Handler {
@@ -30,8 +32,13 @@ func SearchQuoteHandler(q QuoteService) http.Handler {
             return
         }
 
-        var id string
-        err := json.NewDecoder(req.Body).Decode(&id)
+        body, err := io.ReadAll(req.Body)
+        if err != nil {
+            w.WriteHeader(http.StatusInternalServerError)
+            return
+        }
+
+        id, err := jsonparser.GetString(body, "id")
         if err != nil {
             w.WriteHeader(http.StatusBadRequest)
             return
