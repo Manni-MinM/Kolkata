@@ -29,8 +29,8 @@ func main() {
     searchHandler := logger(quote.SearchQuoteHandler(service))
 
     router := server.NewRouter()
-    router.AddRoute("/new-quote", newHandler.ServeHTTP)
-    router.AddRoute("/search-quote", searchHandler.ServeHTTP)
+    router.AddRoute("/quotes/new", newHandler.ServeHTTP)
+    router.AddRoute("/quotes/search", searchHandler.ServeHTTP)
 
     err = server.ListenAndServe(conf.Server, router)
     if err != nil {
