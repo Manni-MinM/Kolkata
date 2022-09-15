@@ -10,7 +10,7 @@ func NewLogger(l *log.Logger) middleware {
         return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
             defer func() {
                 if r := recover(); r != nil {
-                    log.Println(r)
+                    l.Println(r)
                 }
             }()
 
